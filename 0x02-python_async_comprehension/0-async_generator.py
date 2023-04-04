@@ -2,7 +2,8 @@
 '''expressing coroutine using asyncio and random modules
 '''
 import asyncio
-import random, typing
+import random
+import typing
 
 
 async def async_generator() -> typing.Generator[float, None, None]:
