@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 '''expressing coroutine using asyncio and time module
 '''
-import asyncio, time
+import asyncio
+import time
 import random
 async_comprehension = __import__('1-async_comprehension').async_comprehension
 
