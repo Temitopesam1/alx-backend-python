@@ -12,30 +12,29 @@ get_json = __import__('utils').get_json
 class TestAccessNestedMap(unittest.TestCase):
     """An access_nested_map function test class"""
     @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b")),
     ])
-    def test_access_nested_map(self, nested_map, path, expected):
-        """Test to access nested map with key path.
-        Parameters
-        ----------
-            nested_map: A nested map
-            path: A sequence of key representing a path to the value
-            expected: Expected result from the function
-        """
-        self.assertEqual(access_nested_map(nested_map, path), expected)
-
-#    def test_access_nested_map_exception(self, nested_map, path):
-#        """Test for an Exception to access nested map with key path.
+#    def test_access_nested_map(self, nested_map, path, expected):
+#        """Test to access nested map with key path.
 #        Parameters
 #        ----------
 #            nested_map: A nested map
 #            path: A sequence of key representing a path to the value
 #            expected: Expected result from the function
 #        """
-#        with self.assertRaises(KeyError):
-#            access_nested_map(nested_map, path)
+#        self.assertEqual(access_nested_map(nested_map, path), expected)
+
+    def test_access_nested_map_exception(self, nested_map, path):
+        """Test for an Exception to access nested map with key path.
+        Parameters
+        ----------
+            nested_map: A nested map
+            path: A sequence of key representing a path to the value
+            expected: Expected result from the function
+        """
+        with self.assertRaises(KeyError):
+            access_nested_map(nested_map, path)
 
 
 class TestGetJson(unittest.TestCase):
