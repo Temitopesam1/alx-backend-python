@@ -16,8 +16,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
-        ({}, ("a",)),
-        ({"a": 1}, ("a", "b")),
     ])
     def test_access_nested_map(self, nested_map, path, expected):
         """Test to access nested map with key path.
@@ -29,7 +27,10 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
-
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b")),
+    ])
     def test_access_nested_map_exception(self, nested_map, path):
         """Test for an Exception to access nested map with key path.
         Parameters
@@ -66,16 +67,9 @@ class TestGetJson(unittest.TestCase):
 class TestMemoize(unittest.TestCase):
     """A memoize function test class
     """
-    @parameterized.expand([
-        (42, ),
-        (42, ),
-    ])
-    def test_memoize(self, expected):
-        """Test for an Exception to access nested map with key path.
-        Parameters
-        ----------
-            test_url: A test url
-            expected: Expected result from the function
+
+    def test_memoize(self):
+        """Test for the memoize function
         """
         class TestClass:
 
@@ -86,7 +80,12 @@ class TestMemoize(unittest.TestCase):
             def a_property(self):
                 return self.a_method()
 
-        with patch('TestClass.a_method') as mock:
-            res = [TestClass.a_property(), TestClass.a_property()]
-            self.assertEqual(res, result)
-            mock.assert_called_once()
+        with patch.object(
+                TestClass,
+                "a_method",
+                return_value=lambda: 42,
+                ) as memo_fxn:
+            test_class = TestClass()
+            self.assertEqual(test_class.a_property(), 42)
+            self.assertEqual(test_class.a_property(), 42)
+            memo_fxn.assert_called_once()
